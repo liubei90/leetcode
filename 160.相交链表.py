@@ -82,6 +82,28 @@
 
 class Solution:
     def getIntersectionNode(self, headA: ListNode, headB: ListNode) -> ListNode:
-        
+        '''
+        通过pa和pb遍历a和b，之后pa遍历b，pb遍历a。
+        '''
+        pa = headA
+        pb = headB
+        ca = False
+        cb = False
+        while True:
+            if pa == pb:
+                return pa
+
+            if not pa or not pb:
+                return None
+            
+            pa = pa.next
+            if not ca and not pa:
+                pa = headB
+                ca = True
+            
+            pb = pb.next
+            if not cb and not pb:
+                pb = headA
+                cb = True
 # @lc code=end
 
