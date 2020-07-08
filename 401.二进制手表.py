@@ -44,9 +44,42 @@
 # 
 #
 
+from typing import List
+
 # @lc code=start
 class Solution:
+    b_l = 10
+
     def readBinaryWatch(self, num: int) -> List[str]:
-        
+        if num == 0:
+            return ['0:00']
+
+        total = 1 << self.b_l
+        res = []
+
+        for i in range(total):
+            bin_str = bin(i)
+            if bin_str.count('1') == num:
+                status, d = self.b2d(bin_str)
+                if status:
+                    res.append(d)
+
+        return res
+
+    def b2d(self, bin_str: str) -> str:
+        # 去除开头的0b
+        bin_str = bin_str[2:].zfill(10)
+        h = int(bin_str[0:4], 2)
+        s = int(bin_str[4:], 2)
+
+        if h > 11 or s > 59:
+            return False, None
+
+        s = str(s) if s > 9 else f'0{str(s)}'
+
+        return True, f'{str(h)}:{s}'
+
 # @lc code=end
 
+s = Solution()
+print(s.readBinaryWatch(1))
