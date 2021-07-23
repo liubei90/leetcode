@@ -1,7 +1,7 @@
 '''
 Author: liubei
 Date: 2021-07-08 09:46:41
-LastEditTime: 2021-07-08 09:56:10
+LastEditTime: 2021-07-20 13:38:49
 Description: 
 '''
 #
@@ -58,27 +58,25 @@ Description:
 class Solution:
     def subsetsWithDup(self, nums: List[int]) -> List[List[int]]:
         nums_len = len(nums)
-        res = [[]]
+        res = []
         combin = []
 
-        def dfs(target):
-            if target == len(combin):
-                return True
+        def dfs(idx):
+            if idx >= nums_len:
+                tmp = combin[:]
+                tmp.sort()
 
-            for i in nums:
-                combin.append(i)
+                if tmp not in res:
+                    res.append(tmp)
+                return
 
-                if dfs(target) and combin not in res:
-                    return True
+            combin.append(nums[idx])
+            dfs(idx + 1)
 
-                combin.pop()
+            combin.pop()
+            dfs(idx + 1)
 
-        for i in range(1, nums_len):
-            combin = []
-            dfs(i)
-            res.append(combin[:])
-
-        res.append(nums)
+        dfs(0)
 
         return res
 # @lc code=end
